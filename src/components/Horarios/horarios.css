@@ -1,0 +1,61 @@
+.body-horarios {
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  align-items: center;
+}
+
+.titulo-horarios {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 45px;
+  line-height: 36px;
+  text-align: center;
+}
+
+.contenedor-horarios {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.casillaHor {
+  width: 167px;
+  height: 33px;
+  border-radius: 20px;
+  border: 3px solid #c9bdf2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.seleccionadoHor {
+  background-color: #C9BDF2;
+}
+.casilla-texto {
+  /* Estilos para el texto */
+  font-family: "Poppins";
+  font-style: normal;
+  font-size: 16px;
+  font-weight: bold;
+}
+.boton-horario {
+  width: 282px;
+  height: 49px;
+  left: 66px;
+  top: 631px;
+  color: #1a1a1a;
+  background: #c9bdf2;
+  border-radius: 25px;
+
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+/* Estilos adicionales si los necesitas */
