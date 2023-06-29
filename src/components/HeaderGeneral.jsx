@@ -3,6 +3,7 @@ import logo from "../assets/logo.png";
 import "./styles/header-general.css";
 import { FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 function HeaderGeneral() {
   const goBack = () => {
@@ -13,9 +14,9 @@ function HeaderGeneral() {
       <a onClick={goBack}>
         <IoIosArrowBack className="back-icon" />
       </a>
-      <a href="/">
+      <Link to="/">
         <img className="app-logo" src={logo} alt="Logo de la peluquería" />
-      </a>
+      </Link>
       <div>
         <a
           href="https://wa.me/56920673526"

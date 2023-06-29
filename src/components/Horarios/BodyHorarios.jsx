@@ -1,32 +1,34 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./horarios.css";
+import { SelectionContext } from "../../context/SelectionContext";
+import { Link } from "react-router-dom";
 
 function CasillaHor({ horario, seleccionado, habilitado, onClick }) {
   return (
-    <div
+    <button
       className={`casillaHor ${seleccionado ? "seleccionadoHor" : ""} ${
         habilitado ? "" : "deshabilitado"
       }`}
       onClick={onClick}
     >
       <span className="casilla-texto">{horario}</span>
-    </div>
+    </button>
   );
 }
 
 function BodyHorarios() {
-  const [horariosSeleccionados, setHorariosSeleccionados] = useState([]); // este estado tengo que moverlo al contexto
+   const { horariosSeleccionados, agregarHorario } = useContext(SelectionContext)
   const [casillaSeleccionada, setCasillaSeleccionada] = useState(null);
 
   const handleCasillaClick = (horario) => {
     if (casillaSeleccionada === horario) {
       setCasillaSeleccionada(null);
-      setHorariosSeleccionados([]); // este estado tengo que moverlo al contexto
+      agregarHorario([]); // este estado tengo que moverlo al contexto
     } else {
       setCasillaSeleccionada(horario);
-      setHorariosSeleccionados([horario]); // este estado tengo que moverlo al contexto
+      agregarHorario([horario]); // este estado tengo que moverlo al contexto
     }
-    console.log(`Horario seleccionado: ${horario}`);
+  
   };
   const confirmarHabilitado = horariosSeleccionados.length > 0;
 
@@ -92,17 +94,16 @@ function BodyHorarios() {
       <p className="texto-horarios">
           Horario Seleccionado: {" "}
           <span className="horario-seleccionado">
-            {casillaSeleccionada ? casillaSeleccionada : ""}
+            {horariosSeleccionados ? horariosSeleccionados : ""}
           </span>
         </p>
-      <a href="">
-        <button className="boton-horario" disabled={!confirmarHabilitado}>
+      <Link to="/Datos">
+        <button  className="boton-horario" disabled={!confirmarHabilitado}>
           Confirmar
         </button>
-      </a>
+      </Link>
     </div>
   );
 }
 
 export default BodyHorarios;
-Ñ

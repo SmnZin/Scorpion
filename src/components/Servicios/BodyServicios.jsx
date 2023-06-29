@@ -7,7 +7,7 @@ import lifting from "../../assets/lifting.png";
 import parafinoterapia from "../../assets/parafinoterapia.png";
 import depilacion from "../../assets/depilacion.png";
 import { SelectionContext } from "../../context/SelectionContext";
-
+import { Link } from "react-router-dom";
 function Casilla({ imagen, textoArriba, textoAbajo, seleccionada, onClick }) {
   return (
     <div
@@ -127,7 +127,7 @@ function Servicios() {
         ))}
         </span>
       </p>
-      <a href="/Fecha">
+      <Link to="/Fecha">
         <button
           className="boton"
           disabled={!confirmarHabilitado}
@@ -135,7 +135,7 @@ function Servicios() {
         >
           Agendar Hora
         </button>
-      </a>
+      </Link>
     </div>
   );
 }

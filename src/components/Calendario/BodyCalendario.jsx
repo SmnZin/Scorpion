@@ -4,6 +4,7 @@ import { es } from "date-fns/locale";
 import { isSameDay, isBefore, startOfToday } from "date-fns";
 import "react-day-picker/dist/style.css";
 import { SelectionContext } from "../../context/SelectionContext";
+import { Link } from "react-router-dom";
 
 import "./calendario.css";
 
@@ -70,7 +71,7 @@ function Calendario() {
         </div>
       </div>
 
-      <a href="/Horarios">
+      <Link to="/Horarios">
         <button
           className="boton-fecha"
           disabled={!confirmarHabilitado}
@@ -78,7 +79,7 @@ function Calendario() {
         >
           Seleccionar Hora
         </button>
-      </a>
+      </Link>
     </div>
   );
 }
