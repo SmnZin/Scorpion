@@ -34,17 +34,7 @@ function BodyHorarios() {
     <div className="body-horarios">
       <h1 className="titulo-horarios">Seleccione un Horario</h1>
       <div className="contenedor-horarios">
-        <div className="columna">
-          <CasillaHor
-            horario="9:00"
-            seleccionado={horariosSeleccionados.includes("9:00")}
-            onClick={() => handleCasillaClick("9:00")}
-          />
-          <CasillaHor
-            horario="10:00"
-            seleccionado={horariosSeleccionados.includes("10:00")}
-            onClick={() => handleCasillaClick("10:00")}
-          />
+        <div className="columna-horarios">
           <CasillaHor
             horario="11:00"
             seleccionado={horariosSeleccionados.includes("11:00")}
@@ -65,13 +55,13 @@ function BodyHorarios() {
             seleccionado={horariosSeleccionados.includes("14:00")}
             onClick={() => handleCasillaClick("14:00")}
           />
-        </div>
-        <div className="columna">
           <CasillaHor
             horario="15:00"
             seleccionado={horariosSeleccionados.includes("15:00")}
             onClick={() => handleCasillaClick("15:00")}
           />
+        </div>
+        <div className="columna-horarios">
           <CasillaHor
             horario="16:00"
             seleccionado={horariosSeleccionados.includes("16:00")}
@@ -99,6 +89,12 @@ function BodyHorarios() {
           />
         </div>
       </div>
+      <p className="texto-horarios">
+          Horario Seleccionado: {" "}
+          <span className="horario-seleccionado">
+            {casillaSeleccionada ? casillaSeleccionada : ""}
+          </span>
+        </p>
       <a href="">
         <button className="boton-horario" disabled={!confirmarHabilitado}>
           Confirmar
@@ -109,3 +105,4 @@ function BodyHorarios() {
 }
 
 export default BodyHorarios;
+Ñ
