@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
-import { parseISO } from "date-fns";
+import React, { createContext, useState, useEffect, useCallback } from "react";
+
+
 
 export const SelectionContext = createContext();
 
@@ -29,13 +30,14 @@ export const SelectionProvider = ({ children }) => {
   const eliminarServicio = (servicio) => {
     console.log("Eliminando servicio de", servicio);
     setServiciosSeleccionados((prevServicios) =>
-      prevServicios.filter((s) => s !== servicio)
+      prevServicios.filter((s) => s._id !== servicio._id)
     );
   };
-
-  const limpiarServicios = () => {
+  
+  const limpiarServicios = useCallback(() => {
     setServiciosSeleccionados([]);
-  };
+  }, [])
+
   // Guardar la selección de servicios en el almacenamiento local cada vez que cambie
   useEffect(() => {
     localStorage.setItem(
@@ -68,10 +70,10 @@ export const SelectionProvider = ({ children }) => {
     setFechaSeleccionada(fechaObjeto);
   };
 
-  const eliminarFecha = () => {
-    console.log("Limpiando fecha");
+  const eliminarFecha = useCallback(() => {
+    console.log("Eliminando fecha");
     setFechaSeleccionada(null);
-  };
+  }, []);
 
   // Guardar la selección de fecha en el almacenamiento local cada vez que cambie
   useEffect(() => {
@@ -104,10 +106,9 @@ export const SelectionProvider = ({ children }) => {
     setHorariosSeleccionados(horario);
   };
 
-  const eliminarHorario = () => {
-    console.log("Eliminando fecha");
-    setFechaSeleccionada(null);
-  };
+  const eliminarHorario = useCallback(() => {
+    setHorariosSeleccionados([]);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(
@@ -130,10 +131,13 @@ export const SelectionProvider = ({ children }) => {
   };
   
   const [datos, setDatos] = useState(storedDatos());
-  const agregarDatos = (e) => {
-    const { name, value } = e.target;
-    setDatos({ ...datos, [name]: value });
+  const agregarDatos = (data) => {
+    setDatos({ ...datos, ...data});
   };
+
+  const eliminarDatos = useCallback(() => {
+    setDatos({ nombre: "", email: "", telefono: "", rut: "" });
+  }, [])
 
   useEffect(() => {
     localStorage.setItem("datos", JSON.stringify(datos));
@@ -156,6 +160,7 @@ export const SelectionProvider = ({ children }) => {
         eliminarHorario,
         datos,
         agregarDatos,
+        eliminarDatos,
       }}
     >
       {children}

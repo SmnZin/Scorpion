@@ -1,60 +1,78 @@
 import React, { useState, useContext, useEffect } from "react";
 import "../styles/servicios.css";
-import corte from "../../assets/Corte.png";
-import barberia from "../../assets/barberia.png";
-import coloracion from "../../assets/coloracion.png";
-import lifting from "../../assets/lifting.png";
-import parafinoterapia from "../../assets/parafinoterapia.png";
-import depilacion from "../../assets/depilacion.png";
 import { SelectionContext } from "../../context/SelectionContext";
 import { Link } from "react-router-dom";
-function Casilla({ imagen, textoArriba, textoAbajo, seleccionada, onClick }) {
-  return (
-    <div
-      className={`casilla ${seleccionada ? "seleccionada" : ""}`}
-      style={{ backgroundImage: `url(${imagen})` }}
-      onClick={onClick}
-    >
-      <span className="texto">{textoArriba}</span>
-      <span className="texto">{textoAbajo}</span>
-    </div>
-  );
-}
+import axios from "axios";
+
+
 
 function Servicios() {
-  const { serviciosSeleccionados, agregarServicio, eliminarServicio, limpiarServicios } =
-    useContext(SelectionContext);
+
+  function Casilla({
+    imagen,
+    textoArriba,
+    textoAbajo,
+    servicio,
+    onClick,
+  }) {
+    const seleccionada = serviciosSeleccionados.some(
+      (servicioSeleccionado) => servicioSeleccionado._id === servicio._id
+    );
+    const casillaClassName = seleccionada ? "casilla-seleccionada" : "casilla";
+    return (
+      <div
+        className={casillaClassName}
+        style={{ backgroundImage: `url(${imagen})` }}
+        onClick={onClick}
+      >
+        <span className="texto">{textoArriba}</span>
+        <span className="texto">{textoAbajo}</span>
+      </div>
+    );
+  }
+  const {
+    serviciosSeleccionados,
+    agregarServicio,
+    eliminarServicio,
+    limpiarServicios,
+  } = useContext(SelectionContext);
 
   const [mostrarError, setMostrarError] = useState(false);
 
+  // Obtener los servicios desde el servidor y guardarlos en el estado
+  const [listaServicios, setListaServicios] = useState([]);
 
-  const handleCasillaClick = (index) => {
-    const servicio = obtenerNombreServicio(index);
-    if (serviciosSeleccionados.includes(servicio)) {
+  // Guardar la selección de servicios en el almacenamiento local cada vez que cambie
+  useEffect(() => {
+    const nombresServicios = serviciosSeleccionados.map(
+      (servicio) => servicio.nombre
+    );
+    console.log("Servicios Seleccionados:", nombresServicios);
+  }, [serviciosSeleccionados]);
+
+  // Obtener los servicios desde el servidor
+  useEffect(() => {
+    const getServicios = async () => {
+      const response = await axios.get("http://localhost:4000/api/servicios");
+      setListaServicios(response.data);
+    };
+    getServicios();
+  }, []);
+
+  const handleClick = (servicio) => {
+    // Si el servicio ya está seleccionado, lo eliminamos
+    const servicioYaSeleccionado = serviciosSeleccionados.some(
+      (servicioSeleccionado) => servicioSeleccionado._id === servicio._id
+    );
+
+    if (servicioYaSeleccionado) {
       eliminarServicio(servicio);
     } else {
       agregarServicio(servicio);
     }
   };
 
-  const obtenerNombreServicio = (index) => {
-    switch (index) {
-      case 0:
-        return "Corte de pelo";
-      case 1:
-        return "Barberia";
-      case 2:
-        return "Coloracion";
-      case 3:
-        return "Lifting de pestañas";
-      case 4:
-        return "Parafinoterapia";
-      case 5:
-        return "Depilacion";
-      default:
-        return "";
-    }
-  };
+
   const confirmarHabilitado = serviciosSeleccionados.length > 0;
   const handleAgendarClick = () => {
     if (!confirmarHabilitado) {
@@ -67,64 +85,24 @@ function Servicios() {
   return (
     <div className="body-servicios">
       <h1 className="titulo-servicios">Selecciona uno o mas servicios</h1>
-      <div className="contenedor-casillas">
-        <div className="columna">
-          
+      <div className="servicios">
+        {listaServicios.map((servicio) => (
           <Casilla
-            imagen={corte}
-            textoArriba="Corte de pelo"
-            textoAbajo="Reserva Aqui"
-            seleccionada={serviciosSeleccionados.includes("Corte de pelo")}
-            onClick={() => handleCasillaClick(0)}
+            key={servicio._id}
+            imagen={servicio.name_file}
+            textoArriba={servicio.nombre}
+            textoAbajo={`Precio: ${servicio.precio}`}
+            servicio={servicio}
+            onClick={() => handleClick(servicio)}
           />
-          <Casilla
-            imagen={barberia}
-            textoArriba="Barberia"
-            textoAbajo="Reserva Aqui"
-            seleccionada={serviciosSeleccionados.includes("Barberia")}
-            onClick={() => handleCasillaClick(1)}
-          />
-          <Casilla
-            imagen={coloracion}
-            textoArriba="Coloracion"
-            textoAbajo="Reserva Aqui"
-            seleccionada={serviciosSeleccionados.includes("Coloracion")}
-            onClick={() => handleCasillaClick(2)}
-          />
-        </div>
-        <div className="columna">
-          <Casilla
-            imagen={lifting}
-            textoArriba="Lifting de pestañas"
-            textoAbajo="Reserva Aqui"
-            seleccionada={serviciosSeleccionados.includes(
-              "Lifting de pestañas"
-            )}
-            onClick={() => handleCasillaClick(3)}
-          />
-
-          <Casilla
-            imagen={parafinoterapia}
-            textoArriba="Parafinoterapia"
-            textoAbajo="Reserva Aqui"
-            seleccionada={serviciosSeleccionados.includes("Parafinoterapia")}
-            onClick={() => handleCasillaClick(4)}
-          />
-          <Casilla
-            imagen={depilacion}
-            textoArriba="Depilacion"
-            textoAbajo="Reserva Aqui"
-            seleccionada={serviciosSeleccionados.includes("Depilacion")}
-            onClick={() => handleCasillaClick(5)}
-          />
-        </div>
+        ))}
       </div>
-      <p className={`servicios-deselect ${mostrarError ? "error" : ""}`}>
+      <p className="servicios-deselect">
         Servicios seleccionados:{" "}
         <span className="servicios-select">
           {serviciosSeleccionados.map((servicio, index) => (
-          <li key={index}>{servicio}</li>
-        ))}
+            <li key={index}>{servicio.nombre}</li>
+          ))}
         </span>
       </p>
       <Link to="/Fecha">

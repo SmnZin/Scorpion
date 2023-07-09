@@ -16,6 +16,14 @@
   padding-bottom: 3%;
     
 }
+.formulario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
 .campo-datos {
   margin-bottom: 20px;
 }
@@ -42,3 +50,37 @@
   font-weight: 700;
   line-height: normal;
 }
+
+.campo-datos input.error::placeholder {
+  color: rgb(177, 96, 96);
+}
+
+
+.boton-datos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 282px;
+  height: 49px;
+  color: #1a1a1a;
+  background: #c9bdf2;
+  border-radius: 25px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.error-message{
+  font-size: 14px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: rgb(177, 96, 96);
+}
+
+
